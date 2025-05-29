@@ -29,6 +29,7 @@ public class ScannerUtils {
     return value;
   }
 
+
   public static boolean getYesNoInput(String prompt) {
     System.out.print(prompt);
     String input = scanner.nextLine().trim();

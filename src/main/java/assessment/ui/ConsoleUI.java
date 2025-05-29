@@ -1,10 +1,12 @@
 package assessment.ui;
 
+import assessment.cipher.Cipher;
 import assessment.utils.ScannerUtils;
 
 public class ConsoleUI {
   private static final int MAX_MENU_POINT = 4;
   private static final int MIN_MENU_POINT = 1;
+  private final Cipher cipher = new Cipher();
 
   public void start() {
     boolean isRunning = true;
@@ -53,13 +55,21 @@ public class ConsoleUI {
   }
 
   private void handleCaesarEncryption() {
-    // TODO CaesarEncryption
-    System.out.println("CaesarEncryption");
+    String plainText = ScannerUtils.getStringInput("Enter text to encrypt: ");
+    int shift = ScannerUtils.getIntInput("Enter shift value: ", Integer.MIN_VALUE, Integer.MAX_VALUE);
+
+    String encryptedText = cipher.encrypt(plainText, shift);
+
+    System.out.println("Encrypted text: " + encryptedText);
   }
 
   private void handleCaesarDecryption() {
-    // TODO CaesarDecryption
-    System.out.println("CaesarDecryption");
+    String cipherText = ScannerUtils.getStringInput("Enter text to decrypt: ");
+    int shift = ScannerUtils.getIntInput("Enter shift value: ", Integer.MIN_VALUE, Integer.MAX_VALUE);
+
+    String decryptedText = cipher.decrypt(cipherText, shift);
+
+    System.out.println("Decrypted text: " + decryptedText);
   }
 
   private void handleArithmeticEvaluation() {

@@ -1,15 +1,10 @@
 package assessment.ui;
 
-import java.util.Scanner;
+import assessment.utils.ScannerUtils;
 
 public class ConsoleUI {
-  private final Scanner scanner;
   private static final int MAX_MENU_POINT = 4;
   private static final int MIN_MENU_POINT = 1;
-
-  public ConsoleUI() {
-    this.scanner = new Scanner(System.in);
-  }
 
   public void start() {
     boolean isRunning = true;
@@ -18,7 +13,7 @@ public class ConsoleUI {
 
     while (isRunning) {
       displayMenu();
-      int choice = getMenuChoice(MIN_MENU_POINT, MAX_MENU_POINT);
+      int choice = ScannerUtils.getIntInput("Enter your choice: ", MIN_MENU_POINT, MAX_MENU_POINT);
 
       switch (choice) {
         case 1:
@@ -40,7 +35,7 @@ public class ConsoleUI {
       if (isRunning && !continueOperation()) {
         isRunning = false;
         System.out.println("Exiting the application. Goodbye!");
-        scanner.close();
+        ScannerUtils.closeScanner();
       }
     }
   }
@@ -53,31 +48,8 @@ public class ConsoleUI {
     System.out.println("4. Exit");
   }
 
-  private int getMenuChoice(int min, int max) {
-    int choice = -1;
-    boolean validInput = false;
-
-    while (!validInput) {
-      System.out.println("Enter your choice: ");
-      try {
-        choice = Integer.parseInt(scanner.nextLine());
-        if (choice >= min && choice <= max) {
-          validInput = true;
-        } else {
-          System.out.printf("Please enter a number between %d and %d.%n", min, max);
-        }
-      } catch (NumberFormatException e) {
-        System.out.println("Please enter a valid number.");
-      }
-    }
-
-    return choice;
-  }
-
   private boolean continueOperation() {
-    System.out.print("Continue? (y/n): ");
-    String input = scanner.nextLine().trim();
-    return input.equalsIgnoreCase("y") || input.equalsIgnoreCase("yes");
+    return ScannerUtils.getYesNoInput("Continue? (y/n): ");
   }
 
   private void handleCaesarEncryption() {

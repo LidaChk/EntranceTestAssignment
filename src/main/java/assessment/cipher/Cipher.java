@@ -36,11 +36,11 @@ public class Cipher {
     int alphabetSize = isRussian ? RUSSIAN_ALPHABET_SIZE : ENGLISH_ALPHABET_SIZE;
     String alphabet = isRussian ? RUSSIAN_ALPHABET : ENGLISH_ALPHABET;
 
-
     int pos = alphabet.indexOf(Character.toUpperCase(c));
 
-    int newPos = (pos + shift) % alphabetSize;
+    int positiveShift = shift < 0 ? (shift % alphabetSize) + alphabetSize : shift;
 
+    int newPos = (pos + positiveShift) % alphabetSize;
 
     return Character.isUpperCase(c) ? alphabet.charAt(newPos) : Character.toLowerCase(alphabet.charAt(newPos));
   }

@@ -1,11 +1,11 @@
 package assessment.calculator;
 
-import assessment.calculator.Token.TokenType;
-
 import java.text.CharacterIterator;
 import java.text.StringCharacterIterator;
 import java.util.ArrayList;
 import java.util.List;
+
+import assessment.calculator.Token.TokenType;
 
 public class TokenAnalyzer {
   private CharacterIterator it;
@@ -15,7 +15,6 @@ public class TokenAnalyzer {
     tokens = new ArrayList<>();
     it = new StringCharacterIterator(input.replaceAll("\\s+", ""));
     analyze();
-
   }
 
   public void analyze() throws Exception {

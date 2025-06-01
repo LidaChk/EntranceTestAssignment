@@ -1,6 +1,7 @@
 package assessment.calculator;
 
 import java.util.List;
+
 import assessment.calculator.Token.TokenType;
 
 public class TokenAnalyzerTest {

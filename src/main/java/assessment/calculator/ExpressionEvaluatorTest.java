@@ -7,6 +7,7 @@ public class ExpressionEvaluatorTest {
 
         testCase("2 + 3", 5, evaluator);
         testCase("----2", 2, evaluator);
+        testCase("-(1+1)", -2, evaluator);
         testCase("2 + 3 * 4", 14, evaluator);
         testCase("(10 + 5) / 3", 5, evaluator);
         testCase("2 * (3 + 4) - 1", 13, evaluator);

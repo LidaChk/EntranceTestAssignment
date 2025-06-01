@@ -8,8 +8,8 @@ public class TokenAnalyzerTest {
 
   public static void main(String[] args) throws Exception {
     testAnalyzeValidExpression();
-    testAnalyzeUnaryMinus();
     testAnalyzeInvalidExpression("abc", "Unexpected character: a");
+
   }
 
   public static void testAnalyzeValidExpression() throws Exception {
@@ -40,32 +40,8 @@ public class TokenAnalyzerTest {
     }
   }
 
-  public static void testAnalyzeUnaryMinus() throws Exception {
-    System.out.println("\nTesting testAnalyzeUnaryMinus...");
-    String expression = "-1"; // --> ( 0 - 1 )
-    TokenAnalyzer analyzer = new TokenAnalyzer(expression);
-    List<Token> tokens = analyzer.tokens;
-
-    System.out.println("expression: " + expression);
-    for (Token token : tokens) {
-      System.out.println(token.toString());
-    }
-
-    if (tokens.size() == 6 &&
-        tokens.get(0).getType() == TokenType.LPAREN &&
-        tokens.get(1).getType() == TokenType.NUMBER && tokens.get(1).getValue().equals("0") &&
-        tokens.get(2).getType() == TokenType.MINUS &&
-        tokens.get(3).getType() == TokenType.NUMBER &&
-        tokens.get(4).getType() == TokenType.RPAREN &&
-        tokens.get(5).getType() == TokenType.EOF) {
-      System.out.println("testAnalyzeUnaryMinus Test passed!");
-    } else {
-      System.out.println("testAnalyzeUnaryMinus failed!");
-    }
-  }
-
   public static void testAnalyzeInvalidExpression(String expression, String expectedErrorMessage) {
-    System.out.println("\nTesting testAnalyzeInvalidExpression with expression: " + expression);
+    System.out.println("\nTesting testAnalyzeInvalidExpression...");
     try {
       new TokenAnalyzer(expression);
       System.out.println("testAnalyzeInvalidExpression failed: No exception thrown for expression: " + expression);
@@ -78,4 +54,5 @@ public class TokenAnalyzerTest {
       }
     }
   }
+
 }

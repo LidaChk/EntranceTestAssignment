@@ -20,17 +20,7 @@ public class TokenAnalyzer {
   public void analyze() throws Exception {
     while (it.current() != CharacterIterator.DONE) {
       Token token = nextToken();
-      if (token.getType() == TokenType.MINUS && isUnaryMinus()) {
-        // Unary minus -x --> ( 0 - x )
-        tokens.add(new Token(TokenType.LPAREN, "("));
-        tokens.add(new Token(TokenType.NUMBER, "0"));
-        tokens.add(token);
-        Token numberToken = nextToken();
-        tokens.add(numberToken);
-        tokens.add(new Token(TokenType.RPAREN, ")"));
-      } else {
-        tokens.add(token);
-      }
+      tokens.add(token);
     }
     tokens.add(new Token(TokenType.EOF));
 
@@ -68,19 +58,5 @@ public class TokenAnalyzer {
       default:
         throw new Exception("Unexpected character: " + c);
     }
-  }
-
-  private boolean isUnaryMinus() {
-
-    if (tokens.isEmpty()) {
-      return true;
-    }
-
-    Token prevToken = tokens.get(tokens.size() - 1);
-    return prevToken.getType() == TokenType.LPAREN ||
-        prevToken.getType() == TokenType.PLUS ||
-        prevToken.getType() == TokenType.MINUS ||
-        prevToken.getType() == TokenType.DIV ||
-        prevToken.getType() == TokenType.MUL;
   }
 }

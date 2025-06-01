@@ -83,6 +83,8 @@ public class ExpressionEvaluator {
                             + " at position: " + tokens.getPos());
                 }
                 return value;
+            case MINUS:
+                return -factor(tokens);
             default:
                 throw new Exception("Unexpected token: " + token.getValue()
                         + " at position: " + tokens.getPos());

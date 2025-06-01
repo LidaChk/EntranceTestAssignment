@@ -32,13 +32,11 @@ public class TokenAnalyzer {
         tokens.add(token);
       }
     }
+    tokens.add(new Token(TokenType.EOF));
 
   }
 
   public Token nextToken() throws Exception {
-    if (it.current() == CharacterIterator.DONE) {
-      return new Token(TokenType.EOF);
-    }
 
     char c = it.current();
 

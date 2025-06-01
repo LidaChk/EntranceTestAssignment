@@ -5,21 +5,21 @@ public class ExpressionEvaluatorTest {
     public static void main(String[] args) {
         ExpressionEvaluator evaluator = new ExpressionEvaluator();
 
-        // Test cases
-        testCase("2 + 3", 5.0, evaluator);
-        testCase("2 + 3 * 4", 14.0, evaluator);
-        testCase("(10 + 5) / 3", 5.0, evaluator);
-        testCase("2 * (3 + 4) - 1", 13.0, evaluator);
+        testCase("2 + 3", 5, evaluator);
+        testCase("----2", 2, evaluator);
+        testCase("2 + 3 * 4", 14, evaluator);
+        testCase("(10 + 5) / 3", 5, evaluator);
+        testCase("2 * (3 + 4) - 1", 13, evaluator);
         testCase("-5 + 3", -2.0, evaluator);
         testCase("2.5 + 3", 5.5, evaluator);
         testCase("4.5 / 3", 1.5, evaluator);
-        testCase("2 * (3 + (4 * 2))", 20.0, evaluator);
-        testCase("-5 - 3", -8.0, evaluator);
-        testCase("-3 * 5", -15.0, evaluator);
-        testCase("2 * (3 + (4 * 2)) + (5 - 3)", 22.0, evaluator);
+        testCase("2 * (3 + (4 * 2))", 22, evaluator);
+        testCase("-5 - 3", -8, evaluator);
+        testCase("-3 * 5", -15, evaluator);
+        testCase("2 * (3 + (4 * 2)) + (5 - 3)", 24, evaluator);
 
-        // Test case for division by zero
         testDivisionByZero("10 / 0", evaluator);
+
     }
 
     public static void testCase(String expression, double expected, ExpressionEvaluator evaluator) {

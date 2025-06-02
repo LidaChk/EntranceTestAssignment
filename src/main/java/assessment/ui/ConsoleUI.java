@@ -57,6 +57,7 @@ public class ConsoleUI {
   }
 
   private void handleCaesarEncryption() {
+    System.out.println("Caesar Cipher Encryption");
     String plainText = ScannerUtils.getStringInput("Enter text to encrypt: ");
     int shift = ScannerUtils.getIntInput("Enter shift value: ", Integer.MIN_VALUE, Integer.MAX_VALUE);
     try {
@@ -70,6 +71,7 @@ public class ConsoleUI {
   }
 
   private void handleCaesarDecryption() {
+    System.out.println("Caesar Cipher Decryption");
     String cipherText = ScannerUtils.getStringInput("Enter text to decrypt: ");
     int shift = ScannerUtils.getIntInput("Enter shift value: ", Integer.MIN_VALUE, Integer.MAX_VALUE);
     try {
@@ -81,7 +83,8 @@ public class ConsoleUI {
   }
 
   private void handleArithmeticEvaluation() {
-    String expression = ScannerUtils.getStringInput("Arithmetic Expression Evaluation: ");
+    System.out.println("Arithmetic Expression Evaluation");
+    String expression = ScannerUtils.getStringInput("Expression: ");
 
     try {
       System.out.println("Result: " + evaluator.evaluate(expression));

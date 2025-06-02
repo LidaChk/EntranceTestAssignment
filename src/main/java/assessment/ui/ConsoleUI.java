@@ -1,5 +1,6 @@
 package assessment.ui;
 
+import assessment.calculator.ExpressionEvaluator;
 import assessment.cipher.Cipher;
 import assessment.utils.ScannerUtils;
 
@@ -7,6 +8,7 @@ public class ConsoleUI {
   private static final int MAX_MENU_POINT = 4;
   private static final int MIN_MENU_POINT = 1;
   private final Cipher cipher = new Cipher();
+  private final ExpressionEvaluator evaluator = new ExpressionEvaluator();
 
   public void start() {
     boolean isRunning = true;
@@ -57,23 +59,34 @@ public class ConsoleUI {
   private void handleCaesarEncryption() {
     String plainText = ScannerUtils.getStringInput("Enter text to encrypt: ");
     int shift = ScannerUtils.getIntInput("Enter shift value: ", Integer.MIN_VALUE, Integer.MAX_VALUE);
+    try {
+      String encryptedText = cipher.encrypt(plainText, shift);
 
-    String encryptedText = cipher.encrypt(plainText, shift);
+      System.out.println("Encrypted text: " + encryptedText);
+    } catch (Exception e) {
+      System.out.println("Error encrypting text: " + e.getMessage());
+    }
 
-    System.out.println("Encrypted text: " + encryptedText);
   }
 
   private void handleCaesarDecryption() {
     String cipherText = ScannerUtils.getStringInput("Enter text to decrypt: ");
     int shift = ScannerUtils.getIntInput("Enter shift value: ", Integer.MIN_VALUE, Integer.MAX_VALUE);
-
-    String decryptedText = cipher.decrypt(cipherText, shift);
-
-    System.out.println("Decrypted text: " + decryptedText);
+    try {
+      String decryptedText = cipher.decrypt(cipherText, shift);
+      System.out.println("Decrypted text: " + decryptedText);
+    } catch (Exception e) {
+      System.out.println("Error decrypting text: " + e.getMessage());
+    }
   }
 
   private void handleArithmeticEvaluation() {
-    // TODO ArithmeticEvaluation
-    System.out.println("ArithmeticEvaluation");
+    String expression = ScannerUtils.getStringInput("Arithmetic Expression Evaluation: ");
+
+    try {
+      System.out.println("Result: " + evaluator.evaluate(expression));
+    } catch (Exception e) {
+      System.out.println("Error evaluating expression: " + e.getMessage());
+    }
   }
 }

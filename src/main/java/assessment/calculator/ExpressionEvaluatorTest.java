@@ -18,6 +18,7 @@ public class ExpressionEvaluatorTest {
         testCase("-5 - 3", -8, evaluator);
         testCase("-3 * 5", -15, evaluator);
         testCase("2 * (3 + (4 * 2)) + (5 - 3)", 24, evaluator);
+        testCase("", 0, evaluator);
 
         testDivisionByZero("10 / 0", evaluator);
 

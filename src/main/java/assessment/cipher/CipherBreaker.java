@@ -113,7 +113,7 @@ public class CipherBreaker extends Cipher {
       score += Math.pow(expected - actual, 2) / expected;
     }
 
-    return score;
+    return -score;
   }
 
   private static Map<Character, Double> initEnglishFreq() {

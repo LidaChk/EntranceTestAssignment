@@ -12,6 +12,7 @@ public class CipherTest {
     testEncryption("Test", 0, "Test", cipher);
     testEncryption("Test", 26, "Test", cipher);
     testEncryption("Тест", 34, "Тест", cipher);
+    testEncryption("Hello World привет мир 123!", 3, "Khoor Zruog тулезх плу 123 123!", cipher);
 
     testDecryption("Khoor Zruog", 3, "Hello World", cipher);
     testDecryption("Khoor Zruog 123!", 3, "Hello World 123!", cipher);

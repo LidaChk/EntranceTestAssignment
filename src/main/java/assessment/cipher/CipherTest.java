@@ -1,28 +1,28 @@
 package assessment.cipher;
 
 public class CipherTest {
+  static final Cipher cipher = new Cipher();
 
-  public static void main(String[] args) {
-    Cipher cipher = new Cipher();
+public static void main(String[] args) {
 
-    testEncryption("Hello World", 3, "Khoor Zruog", cipher);
-    testEncryption("Привет Мир", 5, "Хумёзй Рну", cipher);
-    testEncryption("Hello World 123!", 3, "Khoor Zruog 123!", cipher);
-    testEncryption("aBcDeFg", 1, "bCdEfGh", cipher);
-    testEncryption("Test", 0, "Test", cipher);
-    testEncryption("Test", 26, "Test", cipher);
-    testEncryption("Тест", 34, "Тест", cipher);
-    testEncryption("Hello World привет мир 123!", 3, "Khoor Zruog тулезх плу 123 123!", cipher);
+    testEncryption("Hello World", 3, "Khoor Zruog");
+    testEncryption("Привет Мир", 5, "Хумёзй Рну");
+    testEncryption("Hello World 123!", 3, "Khoor Zruog 123!");
+    testEncryption("aBcDeFg", 1, "bCdEfGh");
+    testEncryption("Test", 0, "Test");
+    testEncryption("Test", 26, "Test");
+    testEncryption("Тест", 34, "Тест");
+    testEncryption("Hello World привет мир 123!", 3, "Khoor Zruog тулезх плу 123 123!");
 
-    testDecryption("Khoor Zruog", 3, "Hello World", cipher);
-    testDecryption("Khoor Zruog 123!", 3, "Hello World 123!", cipher);
-    testDecryption("bCdEfGh", 1, "aBcDeFg", cipher);
-    testDecryption("Test", 0, "Test", cipher);
-    testDecryption("Test", 26, "Test", cipher);
-    testDecryption("Тест", 33, "Тест", cipher);
+    testDecryption("Khoor Zruog", 3, "Hello World");
+    testDecryption("Khoor Zruog 123!", 3, "Hello World 123!");
+    testDecryption("bCdEfGh", 1, "aBcDeFg");
+    testDecryption("Test", 0, "Test");
+    testDecryption("Test", 26, "Test");
+    testDecryption("Тест", 33, "Тест");
   }
 
-  public static void testEncryption(String input, int shift, String expectedOutput, Cipher cipher) {
+  public static void testEncryption(String input, int shift, String expectedOutput) {
     String encryptedText = cipher.encrypt(input, shift);
     if (encryptedText.equals(expectedOutput)) {
       System.out.printf(
@@ -33,7 +33,7 @@ public class CipherTest {
     }
   }
 
-  public static void testDecryption(String input, int shift, String expectedOutput, Cipher cipher) {
+  public static void testDecryption(String input, int shift, String expectedOutput) {
     String decryptedText = cipher.decrypt(input, shift);
     if (decryptedText.equals(expectedOutput)) {
       System.out.printf(

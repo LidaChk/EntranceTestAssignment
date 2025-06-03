@@ -105,10 +105,10 @@ public class CipherBreaker extends Cipher {
 
   private double getScore(Map<Character, Double> actualFreq, Map<Character, Double> expectedFreq) {
     double score = 0.0;
-    for (Map.Entry<Character, Double> entry : actualFreq.entrySet()) {
+    for (Map.Entry<Character, Double> entry : expectedFreq.entrySet()) {
       char letter = entry.getKey();
-      double expected = expectedFreq.get(letter);
-      double actual = entry.getValue();
+      double expected = entry.getValue();
+      double actual = actualFreq.getOrDefault(letter, 0.0);
       score += 100 - Math.abs(expected - actual);
     }
 

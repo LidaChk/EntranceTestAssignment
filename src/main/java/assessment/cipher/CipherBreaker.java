@@ -1,14 +1,34 @@
 package assessment.cipher;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class CipherBreaker {
+
+  private static final Cipher cipher = new Cipher();
   // source https://en.wikipedia.org/wiki/Letter_frequency
   private static final Map<Character, Double> ENGLISH_FREQ = initEnglishFreq();
   // source
   // https://ru.wikipedia.org/wiki/%D0%A7%D0%B0%D1%81%D1%82%D0%BE%D1%82%D0%BD%D0%BE%D1%81%D1%82%D1%8C
   private static final Map<Character, Double> RUSSIAN_FREQ = initRussianFreq();
+
+  public String breakCaesar(String cipherText) {
+    List<String> candidates = new ArrayList<>();
+
+    for (int shift = 0; shift < 26; shift++) {
+      String decrypted = cipher.decrypt(cipherText, shift);
+      candidates.add(decrypted);
+    }
+
+    for (int shift = 0; shift < 33; shift++) {
+      String decrypted = cipher.decrypt(cipherText, shift);
+      candidates.add(decrypted);
+    }
+
+    return cipherText;// findBestCandidate(candidates);
+  }
 
   private static Map<Character, Double> initEnglishFreq() {
     Map<Character, Double> map = new HashMap<>();
@@ -78,4 +98,5 @@ public class CipherBreaker {
     map.put('я', 2.01);
     return map;
   }
+
 }

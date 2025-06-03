@@ -2,13 +2,15 @@ package assessment.ui;
 
 import assessment.calculator.ExpressionEvaluator;
 import assessment.cipher.Cipher;
+import assessment.cipher.CipherBreaker;
 import assessment.utils.ScannerUtils;
 
 public class ConsoleUI {
-  private static final int MAX_MENU_POINT = 4;
+  private static final int MAX_MENU_POINT = 5;
   private static final int MIN_MENU_POINT = 1;
-  private final Cipher cipher = new Cipher();
-  private final ExpressionEvaluator evaluator = new ExpressionEvaluator();
+  private static final Cipher cipher = new Cipher();
+  private static final CipherBreaker cipherBreaker = new CipherBreaker();
+  private static final ExpressionEvaluator evaluator = new ExpressionEvaluator();
 
   public void start() {
     boolean isRunning = true;
@@ -27,9 +29,12 @@ public class ConsoleUI {
           handleCaesarDecryption();
           break;
         case 3:
-          handleArithmeticEvaluation();
+          handleCaesarBreaking();
           break;
         case 4:
+          handleArithmeticEvaluation();
+          break;
+        case 5:
           isRunning = false;
           System.out.println("Exiting the application. Goodbye!");
           break;
@@ -48,8 +53,9 @@ public class ConsoleUI {
     System.out.println("\nPlease choose an option:");
     System.out.println("1. Caesar Cipher Encryption");
     System.out.println("2. Caesar Cipher Decryption");
-    System.out.println("3. Arithmetic Expression Evaluation");
-    System.out.println("4. Exit");
+    System.out.println("3. Caesar Cipher Breaking (Frequency Analysis)");
+    System.out.println("4. Arithmetic Expression Evaluation");
+    System.out.println("5. Exit");
   }
 
   private boolean continueOperation() {
@@ -79,6 +85,23 @@ public class ConsoleUI {
       System.out.println("Decrypted text: " + decryptedText);
     } catch (Exception e) {
       System.out.println("Error decrypting text: " + e.getMessage());
+    }
+  }
+
+  private void handleCaesarBreaking() {
+    System.out.println("Caesar Cipher Breaking");
+    String cipherText = ScannerUtils.getStringInput("Enter encrypted text: ");
+
+    if (cipherText.isEmpty()) {
+      System.out.println("Decrypted text: ");
+      return;
+    }
+
+    try {
+      String decryptedText = cipherBreaker.breakCaesar(cipherText);
+      System.out.println("Decrypted text: " + decryptedText);
+    } catch (Exception e) {
+      System.out.println("Error breaking cipher: " + e.getMessage());
     }
   }
 

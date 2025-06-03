@@ -1,33 +1,50 @@
 package assessment.cipher;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class CipherBreaker {
+public class CipherBreaker extends Cipher {
 
-  private static final Cipher cipher = new Cipher();
   // source https://en.wikipedia.org/wiki/Letter_frequency
   private static final Map<Character, Double> ENGLISH_FREQ = initEnglishFreq();
   // source
   // https://ru.wikipedia.org/wiki/%D0%A7%D0%B0%D1%81%D1%82%D0%BE%D1%82%D0%BD%D0%BE%D1%81%D1%82%D1%8C
   private static final Map<Character, Double> RUSSIAN_FREQ = initRussianFreq();
 
+  private record CandidateScore(String candidate, double score) {
+  }
+
+  private List<CandidateScore> candidates;
+
   public String breakCaesar(String cipherText) {
-    List<String> candidates = new ArrayList<>();
 
-    for (int shift = 0; shift < 26; shift++) {
-      String decrypted = cipher.decrypt(cipherText, shift);
-      candidates.add(decrypted);
+    candidates = new ArrayList<>();
+
+    generateCandidatesWithScore(cipherText, ENGLISH_ALPHABET_SIZE, ENGLISH_FREQ);
+    generateCandidatesWithScore(cipherText, RUSSIAN_ALPHABET_SIZE, RUSSIAN_FREQ);
+
+    return findBestCandidate(cipherText);
+  }
+
+  private void generateCandidatesWithScore(String cipherText, int alphabetSize, Map<Character, Double> freq) {
+    for (int shift = 0; shift < alphabetSize; shift++) {
+      String decrypted = decrypt(cipherText, shift);
+      candidates.add(new CandidateScore(decrypted, calculateFrequencyScore(decrypted, freq)));
     }
+  }
 
-    for (int shift = 0; shift < 33; shift++) {
-      String decrypted = cipher.decrypt(cipherText, shift);
-      candidates.add(decrypted);
-    }
+  private String findBestCandidate(String cipherText) {
+    return candidates.stream()
+        .max(Comparator.comparingDouble(candidateScore -> candidateScore.score))
+        .map(bestCandidateScore -> bestCandidateScore.candidate)
+        .orElse(cipherText);
+  }
 
-    return cipherText;// findBestCandidate(candidates);
+  private double calculateFrequencyScore(String cipherText, Map<Character, Double> expectedFreq) {
+    return 0;
   }
 
   private static Map<Character, Double> initEnglishFreq() {

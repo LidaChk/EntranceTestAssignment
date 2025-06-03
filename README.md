@@ -6,6 +6,8 @@ This project implements two console applications in Java as part of the Gehtsoft
 
 ## How to Compile and Run
 
+This project requires **Java 16** or higher.
+
 * Compile the Java files:
     ```bash
     javac  -encoding UTF-8 -d out/main src/main/java/assessment/Main.java src/main/java/assessment/cipher/*.java src/main/java/assessment/calculator/*.java src/main/java/assessment/ui/*.java src/main/java/assessment/utils/*.java

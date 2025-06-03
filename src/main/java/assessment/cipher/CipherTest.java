@@ -6,13 +6,14 @@ public class CipherTest {
 public static void main(String[] args) {
 
     testEncryption("Hello World", 3, "Khoor Zruog");
-    testEncryption("Привет Мир", 5, "Хумёзй Рну");
+    testEncryption("Привет Мир", 5, "Фхнжйч Снх");
     testEncryption("Hello World 123!", 3, "Khoor Zruog 123!");
     testEncryption("aBcDeFg", 1, "bCdEfGh");
+    testEncryption("bCdEfGh", -1, "aBcDeFg");
     testEncryption("Test", 0, "Test");
     testEncryption("Test", 26, "Test");
-    testEncryption("Тест", 34, "Тест");
-    testEncryption("Hello World привет мир 123!", 3, "Khoor Zruog тулезх плу 123 123!");
+    testEncryption("Тест", 33, "Тест");
+    testEncryption("Hello World привет мир 123!", 3, "Khoor Zruog тулезх плу 123!");
 
     testDecryption("Khoor Zruog", 3, "Hello World");
     testDecryption("Khoor Zruog 123!", 3, "Hello World 123!");

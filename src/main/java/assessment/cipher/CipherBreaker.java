@@ -23,8 +23,11 @@ public class CipherBreaker extends Cipher {
 
     candidates = new ArrayList<>();
 
-    generateCandidatesWithScore(cipherText, ENGLISH_ALPHABET_SIZE, ENGLISH_FREQ);
-    generateCandidatesWithScore(cipherText, RUSSIAN_ALPHABET_SIZE, RUSSIAN_FREQ);
+    if (isRussianDominatedInText(cipherText)) {
+      generateCandidatesWithScore(cipherText, RUSSIAN_ALPHABET_SIZE, RUSSIAN_FREQ);
+    } else {
+      generateCandidatesWithScore(cipherText, ENGLISH_ALPHABET_SIZE, ENGLISH_FREQ);
+    }
 
     return findBestCandidate(cipherText);
   }
@@ -43,8 +46,73 @@ public class CipherBreaker extends Cipher {
         .orElse(cipherText);
   }
 
-  private double calculateFrequencyScore(String cipherText, Map<Character, Double> expectedFreq) {
-    return 0;
+  private boolean isRussianDominatedInText(String text) {
+    int russianChars = 0;
+    int englishChars = 0;
+
+    for (char c : text.toLowerCase().toCharArray()) {
+      if (isRussian(c)) {
+        russianChars++;
+      } else if (isEnglish(c)) {
+        englishChars++;
+      }
+    }
+
+    return russianChars > englishChars;
+  }
+
+  private record CountResult(Map<Character, Integer> countMap, int totalLetters) {
+  }
+
+  private double calculateFrequencyScore(String text, Map<Character, Double> expectedFreq) {
+
+    CountResult countResult = getTotalLetterCount(text, expectedFreq);
+
+    Map<Character, Integer> actualLettersCount = countResult.countMap;
+    int totalLetters = countResult.totalLetters;
+
+    if (actualLettersCount.isEmpty())
+      return Double.NEGATIVE_INFINITY;
+
+    Map<Character, Double> actualFreq = normalizeFrequencies(actualLettersCount, totalLetters);
+
+    return getScore(actualFreq, expectedFreq);
+  }
+
+  private CountResult getTotalLetterCount(String text, Map<Character, Double> expectedFreq) {
+    Map<Character, Integer> actualLettersCount = new HashMap<>();
+    int totalLetters = 0;
+
+    for (char c : text.toLowerCase().toCharArray()) {
+      if (expectedFreq.containsKey(c)) {
+        actualLettersCount.put(c, actualLettersCount.getOrDefault(c, 0) + 1);
+        totalLetters++;
+      }
+    }
+    return new CountResult(actualLettersCount, totalLetters);
+  }
+
+  private Map<Character, Double> normalizeFrequencies(Map<Character, Integer> actualLettersCount, int totalLetters) {
+    Map<Character, Double> normalized = new HashMap<>();
+
+    for (Map.Entry<Character, Integer> entry : actualLettersCount.entrySet()) {
+      double frequencyPercent = (entry.getValue() / (double) totalLetters) * 100;
+      normalized.put(entry.getKey(), frequencyPercent);
+    }
+
+    return normalized;
+  }
+
+  private double getScore(Map<Character, Double> actualFreq, Map<Character, Double> expectedFreq) {
+    double score = 0.0;
+    for (Map.Entry<Character, Double> entry : actualFreq.entrySet()) {
+      char letter = entry.getKey();
+      double expected = expectedFreq.get(letter);
+      double actual = entry.getValue();
+      score += 100 - Math.abs(expected - actual);
+    }
+
+    return score;
   }
 
   private static Map<Character, Double> initEnglishFreq() {

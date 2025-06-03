@@ -1,16 +1,16 @@
 package assessment.cipher;
 
 public class CipherBreakerTest {
+  static final CipherBreaker cipherBreaker = new CipherBreaker();
 
   public static void main(String[] args) {
-    CipherBreaker cipherBreaker = new CipherBreaker();
 
-    testBreaking("Khoor Zruog тулезх плу", "Hello World привет мир", cipherBreaker);
-    testBreaking("Test", "Test", cipherBreaker);
+  testBreaking("Khoor Zruog тулезх плу", "Hello World привет мир");
+  testBreaking("Test", "Test");
 
   }
 
-  public static void testBreaking(String input, String expectedOutput, CipherBreaker cipherBreaker) {
+  public static void testBreaking(String input, String expectedOutput) {
     String decryptedText = cipherBreaker.breakCaesar(input);
     if (decryptedText.equals(expectedOutput)) {
       System.out.printf(

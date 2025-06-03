@@ -89,6 +89,7 @@ public class CipherBreaker extends Cipher {
         totalLetters++;
       }
     }
+
     return new CountResult(actualLettersCount, totalLetters);
   }
 
@@ -109,7 +110,7 @@ public class CipherBreaker extends Cipher {
       char letter = entry.getKey();
       double expected = entry.getValue();
       double actual = actualFreq.getOrDefault(letter, 0.0);
-      score += 100 - Math.abs(expected - actual);
+      score += Math.pow(expected - actual, 2) / expected;
     }
 
     return score;

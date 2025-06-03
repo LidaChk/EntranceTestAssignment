@@ -6,7 +6,9 @@ public class CipherBreakerTest {
   public static void main(String[] args) {
 
     testBreaking("Khoor Zruog", "Hello World");
-    testBreaking("Хумёзй Рну", "Привет Мир");
+    testBreaking("Sgd Zrrxqhzm bzld cnvm khjd sgd vnke nm sgd enkc,",
+        "The Assyrian came down like the wolf on the fold,");
+    // testBreaking("Хумёзй Рну", "Привет Мир");
     // testBreaking("Test", "Test");
     // testBreaking("Khoor Zruog тулезх плу", "Hello World привет мир");
   }

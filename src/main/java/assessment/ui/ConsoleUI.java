@@ -62,8 +62,24 @@ public class ConsoleUI {
     return ScannerUtils.getYesNoInput("Continue? (y/n): ");
   }
 
+  private boolean isFromFile() {
+    return ScannerUtils.getYesNoInput("Read input from file? (y/n): ");
+  }
+
+  private String getInputFile() {
+    return ScannerUtils.getStringInput("Enter input file path: ");
+  }
+
+  private String getOutputFile(String inputFilePath) {
+    String defaultOutputFilePath = inputFilePath.substring(0, inputFilePath.length() - 4) + "_out.txt";
+    return ScannerUtils.getStringInput("Enter output file path (default " + defaultOutputFilePath + "): ");
+  }
+
   private void handleCaesarEncryption() {
     System.out.println("Caesar Cipher Encryption");
+    if (isFromFile()) {
+
+    }
     String plainText = ScannerUtils.getStringInput("Enter text to encrypt: ");
     int shift = ScannerUtils.getIntInput("Enter shift value: ", Integer.MIN_VALUE, Integer.MAX_VALUE);
     try {

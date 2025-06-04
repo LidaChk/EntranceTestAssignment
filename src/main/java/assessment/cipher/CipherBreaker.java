@@ -5,6 +5,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public class CipherBreaker extends Cipher {
 
@@ -14,6 +15,16 @@ public class CipherBreaker extends Cipher {
   // https://ru.wikipedia.org/wiki/%D0%A7%D0%B0%D1%81%D1%82%D0%BE%D1%82%D0%BD%D0%BE%D1%81%D1%82%D1%8C
   private static final Map<Character, Double> RUSSIAN_FREQ = initRussianFreq();
 
+  private static final Set<Character> ENGLISH_VOWELS = Set.of('a', 'e', 'i', 'o', 'u');
+  private static final Set<Character> RUSSIAN_VOWELS = Set.of('а', 'е', 'ё', 'и', 'о', 'у', 'ы', 'э', 'ю', 'я');
+  private static final double ENGLISH_VOWEL_FREQUENCY = getExpectedVowelPercent(ENGLISH_FREQ, ENGLISH_VOWELS);
+  private static final double RUSSIAN_VOWEL_FREQUENCY = getExpectedVowelPercent(RUSSIAN_FREQ, RUSSIAN_VOWELS);
+
+  // Penalty coefficient for vowel deviation in frequency score
+  private static final int VOWEL_PENALTY = 5;
+
+  // Minimum number of letters required for adequate frequency analysis
+  private static final int ADEQUATE_MIN_LETTER_COUNT = 15;
   private record CandidateScore(String candidate, double score) {
   }
 
@@ -24,18 +35,21 @@ public class CipherBreaker extends Cipher {
     candidates = new ArrayList<>();
 
     if (isRussianDominatedInText(cipherText)) {
-      generateCandidatesWithScore(cipherText, RUSSIAN_ALPHABET_SIZE, RUSSIAN_FREQ);
+      generateCandidatesWithScore(cipherText, RUSSIAN_ALPHABET_SIZE, RUSSIAN_FREQ, RUSSIAN_VOWEL_FREQUENCY,
+          RUSSIAN_VOWELS);
     } else {
-      generateCandidatesWithScore(cipherText, ENGLISH_ALPHABET_SIZE, ENGLISH_FREQ);
+      generateCandidatesWithScore(cipherText, ENGLISH_ALPHABET_SIZE, ENGLISH_FREQ, ENGLISH_VOWEL_FREQUENCY,
+          ENGLISH_VOWELS);
     }
 
     return findBestCandidate(cipherText);
   }
 
-  private void generateCandidatesWithScore(String cipherText, int alphabetSize, Map<Character, Double> freq) {
+  private void generateCandidatesWithScore(String cipherText, int alphabetSize, Map<Character, Double> freq,
+      double vowelsFreq, Set<Character> vowelsSet) {
     for (int shift = 0; shift < alphabetSize; shift++) {
       String decrypted = decrypt(cipherText, shift);
-      candidates.add(new CandidateScore(decrypted, calculateFrequencyScore(decrypted, freq)));
+      candidates.add(new CandidateScore(decrypted, calculateFrequencyScore(decrypted, freq, vowelsFreq, vowelsSet)));
     }
   }
 
@@ -64,7 +78,8 @@ public class CipherBreaker extends Cipher {
   private record CountResult(Map<Character, Integer> countMap, int totalLetters) {
   }
 
-  private double calculateFrequencyScore(String text, Map<Character, Double> expectedFreq) {
+  private double calculateFrequencyScore(String text, Map<Character, Double> expectedFreq, double expectedVowelPercent,
+      Set<Character> vowelsSet) {
 
     CountResult countResult = getTotalLetterCount(text, expectedFreq);
 
@@ -76,7 +91,15 @@ public class CipherBreaker extends Cipher {
 
     Map<Character, Double> actualFreq = normalizeFrequencies(actualLettersCount, totalLetters);
 
-    return getScore(actualFreq, expectedFreq);
+    double score = getScore(actualFreq, expectedFreq);
+
+
+    double vowelPercent = calculateVowelPercentage(text, vowelsSet);
+
+    double vowelDiff = Math.abs(vowelPercent - expectedVowelPercent);
+    double vowelScore = -vowelDiff * VOWEL_PENALTY;
+
+    return score + vowelScore;
   }
 
   private CountResult getTotalLetterCount(String text, Map<Character, Double> expectedFreq) {
@@ -114,6 +137,73 @@ public class CipherBreaker extends Cipher {
     }
 
     return -score;
+  }
+
+  private double calculateVowelPercentage(String text, Set<Character> vowelsSet) {
+    int total = 0;
+    int vowels = 0;
+
+    for (char c : text.toLowerCase().toCharArray()) {
+      if (vowelsSet.contains(c)) {
+        vowels++;
+      }
+      if (Character.isLetter(c)) {
+        total++;
+      }
+    }
+
+    return total > 0 ? ((double) vowels / total) * 100 : 0;
+  }
+
+  public boolean isInputAdequate(String text) {
+    if (text == null || text.trim().isEmpty()) {
+      return false;
+    }
+
+    int letterCount = 0;
+    for (char c : text.toLowerCase().toCharArray()) {
+      if (Character.isLetter(c)) {
+        letterCount++;
+      }
+    }
+    return letterCount >= ADEQUATE_MIN_LETTER_COUNT;
+  }
+
+  public boolean mightBeMeaningfulText(String text) {
+    if (text == null || text.trim().isEmpty())
+      return false;
+
+    int spaceCount = text.replaceAll("[^ ]", "").length();
+
+    boolean isRussian = isRussianDominatedInText(text);
+
+    Set<Character> vowels = isRussian ? RUSSIAN_VOWELS : ENGLISH_VOWELS;
+    double vowelsFreq = isRussian ? RUSSIAN_VOWEL_FREQUENCY : ENGLISH_VOWEL_FREQUENCY;
+
+    double vowelRatio = calculateVowelPercentage(text, vowels);
+
+    boolean hasEnoughVowels = vowelRatio >= vowelsFreq - 10
+        && vowelRatio <= vowelsFreq + 10;
+
+    boolean hasSpaces = spaceCount > 0;
+
+    return hasEnoughVowels && hasSpaces;
+  }
+
+  private static double getExpectedVowelPercent(Map<Character, Double> freqMap, Set<Character> vowelsSet) {
+    double total = 0;
+    double vowelTotal = 0;
+
+    for (var entry : freqMap.entrySet()) {
+      char c = entry.getKey();
+      double freq = entry.getValue();
+      total += freq;
+      if (vowelsSet.contains(c)) {
+        vowelTotal += freq;
+      }
+    }
+
+    return total > 0 ? (vowelTotal / total) * 100 : 0;
   }
 
   private static Map<Character, Double> initEnglishFreq() {

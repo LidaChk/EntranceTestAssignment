@@ -97,6 +97,16 @@ public class ConsoleUI {
       return;
     }
 
+    if (!cipherBreaker.isInputAdequate(cipherText)) {
+      System.out.println("[Warning] The input is too short or contains too few letters.");
+      System.out.println("Frequency analysis may not work correctly and result could be incorrect.");
+    }
+
+    if (!cipherBreaker.mightBeMeaningfulText(cipherText)) {
+      System.out.println("[Note] The input seems to be random or meaningless text.");
+      System.out.println("The result of breaking the cipher might also be incorrect.");
+    }
+
     try {
       String decryptedText = cipherBreaker.breakCaesar(cipherText);
       System.out.println("Decrypted text: " + decryptedText);

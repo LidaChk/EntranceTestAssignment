@@ -5,12 +5,11 @@ public class CipherBreakerTest {
 
   public static void main(String[] args) {
 
-    testBreaking("Khoor Zruog", "Hello World");
+    testBreaking("Khoor, Zruog! Lw'v ph!", "Hello, World! It's me!");
     testBreaking("Sgd Zrrxqhzm bzld cnvm khjd sgd vnke nm sgd enkc,",
         "The Assyrian came down like the wolf on the fold,");
-    // testBreaking("Хумёзй Рну", "Привет Мир");
-    // testBreaking("Test", "Test");
-    // testBreaking("Khoor Zruog тулезх плу", "Hello World привет мир");
+    testBreaking("Фхнжйч, Снх! Пеп ийре?", "Привет, Мир! Как дела?");
+    testBreaking("Test", "Test");
   }
 
   public static void testBreaking(String input, String expectedOutput) {

@@ -75,16 +75,33 @@ public class ConsoleUI {
     return ScannerUtils.getStringInput("Enter output file path (default " + defaultOutputFilePath + "): ");
   }
 
+  private int getShift() {
+    return ScannerUtils.getIntInput("Enter shift value: ", Integer.MIN_VALUE, Integer.MAX_VALUE);
+  }
+
+  private void invokeFileProcessing(String mode) {
+    String inputFilePath = getInputFile();
+    String outputFilePath = getOutputFile(inputFilePath);
+
+    try {
+      cipher.processFile(inputFilePath, outputFilePath, mode, getShift());
+    } catch (Exception e) {
+      System.out.println("Error processing file: " + e.getMessage());
+    }
+  }
+
   private void handleCaesarEncryption() {
     System.out.println("Caesar Cipher Encryption");
+
     if (isFromFile()) {
-
+      invokeFileProcessing("encrypt");
+      return;
     }
-    String plainText = ScannerUtils.getStringInput("Enter text to encrypt: ");
-    int shift = ScannerUtils.getIntInput("Enter shift value: ", Integer.MIN_VALUE, Integer.MAX_VALUE);
-    try {
-      String encryptedText = cipher.encrypt(plainText, shift);
 
+    String plainText = ScannerUtils.getStringInput("Enter text to encrypt: ");
+
+    try {
+      String encryptedText = cipher.encrypt(plainText, getShift());
       System.out.println("Encrypted text: " + encryptedText);
     } catch (Exception e) {
       System.out.println("Error encrypting text: " + e.getMessage());
@@ -106,21 +123,23 @@ public class ConsoleUI {
 
   private void handleCaesarBreaking() {
     System.out.println("Caesar Cipher Breaking");
+
+    if (isFromFile()) {
+      String inputFilePath = getInputFile();
+      String outputFilePath = getOutputFile(inputFilePath);
+
+      try {
+        cipherBreaker.processFile(inputFilePath, outputFilePath);
+      } catch (Exception e) {
+        System.out.println("Error encrypting file: " + e.getMessage());
+      }
+      return;
+    }
     String cipherText = ScannerUtils.getStringInput("Enter encrypted text: ");
 
     if (cipherText.isEmpty()) {
       System.out.println("Decrypted text: ");
       return;
-    }
-
-    if (!cipherBreaker.isInputAdequate(cipherText)) {
-      System.out.println("[Warning] The input is too short or contains too few letters.");
-      System.out.println("Frequency analysis may not work correctly and result could be incorrect.");
-    }
-
-    if (!cipherBreaker.mightBeMeaningfulText(cipherText)) {
-      System.out.println("[Note] The input seems to be random or meaningless text.");
-      System.out.println("The result of breaking the cipher might also be incorrect.");
     }
 
     try {

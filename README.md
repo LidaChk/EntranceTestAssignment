@@ -165,5 +165,6 @@ src/
 │           │   └── ConsoleUI.java     # Menu-driven interface
 │           └── utils/
 │               ├── ScannerUtils.java  # Input validation
+│               ├── FileIO.java        # File handling utilities
 │               └── FileLineStreamIO.java # File handling utilities
 ```

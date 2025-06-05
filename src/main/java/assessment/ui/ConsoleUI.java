@@ -85,6 +85,7 @@ public class ConsoleUI {
 
     try {
       cipher.processFile(inputFilePath, outputFilePath, mode, getShift());
+      System.out.println("Processing complete. Check out" + outputFilePath + " for result.");
     } catch (Exception e) {
       System.out.println("Error processing file: " + e.getMessage());
       e.printStackTrace();
@@ -138,6 +139,7 @@ public class ConsoleUI {
 
       try {
         cipherBreaker.processFile(inputFilePath, outputFilePath);
+        System.out.println("Processing complete. Check out" + outputFilePath + " for result.");
       } catch (Exception e) {
         System.out.println("Error encrypting file: " + e.getMessage());
         e.printStackTrace();

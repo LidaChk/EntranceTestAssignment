@@ -1,10 +1,12 @@
 
-package assessment.cipher;
+package assessment.cipher.tests;
+
+import assessment.cipher.Cipher;
 
 public class CipherTest {
   static final Cipher cipher = new Cipher();
 
-public static void main(String[] args) {
+  public static void main(String[] args) {
 
     testEncryption("Hello World", 3, "Khoor Zruog");
     testEncryption("Привет Мир", 5, "Фхнжйч Снх");

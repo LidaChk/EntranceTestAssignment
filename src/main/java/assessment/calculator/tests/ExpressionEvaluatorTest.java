@@ -1,4 +1,6 @@
-package assessment.calculator;
+package assessment.calculator.tests;
+
+import assessment.calculator.ExpressionEvaluator;
 
 public class ExpressionEvaluatorTest {
 

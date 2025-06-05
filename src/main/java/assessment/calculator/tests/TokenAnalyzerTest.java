@@ -1,8 +1,10 @@
-package assessment.calculator;
+package assessment.calculator.tests;
 
 import java.util.List;
 
 import assessment.calculator.Token.TokenType;
+import assessment.calculator.Token;
+import assessment.calculator.TokenAnalyzer;
 
 public class TokenAnalyzerTest {
 

@@ -1,4 +1,6 @@
-package assessment.cipher;
+package assessment.cipher.tests;
+
+import assessment.cipher.CipherBreaker;
 
 public class CipherBreakerTest {
   static final CipherBreaker cipherBreaker = new CipherBreaker();

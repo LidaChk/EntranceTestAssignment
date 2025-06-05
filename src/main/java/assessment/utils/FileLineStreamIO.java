@@ -13,7 +13,7 @@ public class FileLineStreamIO implements AutoCloseable {
   private BufferedWriter writer;
 
   public BufferedReader getReader(String filePath) throws IOException {
-    if (reader == null || reader.ready()) {
+    if (reader == null) {
       reader = Files.newBufferedReader(Paths.get(filePath));
     }
     return reader;

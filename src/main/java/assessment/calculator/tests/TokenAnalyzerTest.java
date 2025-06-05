@@ -53,7 +53,9 @@ public class TokenAnalyzerTest {
       } else {
         System.out.println("testAnalyzeInvalidExpression failed for expression: " + expression
             + ". Expected error message containing: '" + expectedErrorMessage + "' but got: '" + e.getMessage() + "'");
+        e.printStackTrace();
       }
+
     }
   }
 

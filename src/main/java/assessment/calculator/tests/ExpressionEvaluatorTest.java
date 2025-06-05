@@ -37,6 +37,7 @@ public class ExpressionEvaluatorTest {
             }
         } catch (Exception e) {
             System.out.printf("Test failed for expression: \"%s\" with exception: %s%n", expression, e.getMessage());
+            e.printStackTrace();
         }
     }
 
@@ -52,6 +53,7 @@ public class ExpressionEvaluatorTest {
             } else {
                 System.out.printf("Test failed for expression: \"%s\" with unexpected exception: %s%n", expression,
                         e.getMessage());
+                e.printStackTrace();
             }
         }
     }

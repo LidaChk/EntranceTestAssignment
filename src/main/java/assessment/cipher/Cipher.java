@@ -34,6 +34,7 @@ public class Cipher {
 
     } catch (IOException e) {
       System.out.println("Error processing file: " + e.getMessage());
+      e.printStackTrace();
     }
   }
 

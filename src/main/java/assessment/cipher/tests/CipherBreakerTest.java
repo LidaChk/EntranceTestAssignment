@@ -12,6 +12,9 @@ public class CipherBreakerTest {
         "The Assyrian came down like the wolf on the fold,");
     testBreaking("Фхнжйч, Снх! Пеп ийре?", "Привет, Мир! Как дела?");
     testBreaking("Test", "Test");
+
+    testBreakingFromFile("src/main/java/assessment/cipher/tests/break_inp.txt",
+        "src/main/java/assessment/cipher/tests/break_out.txt");
   }
 
   public static void testBreaking(String input, String expectedOutput) {
@@ -23,5 +26,9 @@ public class CipherBreakerTest {
       System.out.printf("Breaking Cipher Test Failed: Input \"%s\",  Expected \"%s\", Got \"%s\"%n",
           input, expectedOutput, decryptedText);
     }
+  }
+
+  public static void testBreakingFromFile(String inputFilePath, String outputFilePath) {
+    cipherBreaker.processFile(inputFilePath, outputFilePath);
   }
 }

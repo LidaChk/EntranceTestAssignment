@@ -87,6 +87,7 @@ public class ConsoleUI {
       cipher.processFile(inputFilePath, outputFilePath, mode, getShift());
     } catch (Exception e) {
       System.out.println("Error processing file: " + e.getMessage());
+      e.printStackTrace();
     }
   }
 
@@ -105,19 +106,26 @@ public class ConsoleUI {
       System.out.println("Encrypted text: " + encryptedText);
     } catch (Exception e) {
       System.out.println("Error encrypting text: " + e.getMessage());
+      e.printStackTrace();
     }
 
   }
 
   private void handleCaesarDecryption() {
     System.out.println("Caesar Cipher Decryption");
+
+    if (isFromFile()) {
+      invokeFileProcessing("decrypt");
+      return;
+    }
+
     String cipherText = ScannerUtils.getStringInput("Enter text to decrypt: ");
-    int shift = ScannerUtils.getIntInput("Enter shift value: ", Integer.MIN_VALUE, Integer.MAX_VALUE);
     try {
-      String decryptedText = cipher.decrypt(cipherText, shift);
+      String decryptedText = cipher.decrypt(cipherText, getShift());
       System.out.println("Decrypted text: " + decryptedText);
     } catch (Exception e) {
       System.out.println("Error decrypting text: " + e.getMessage());
+      e.printStackTrace();
     }
   }
 
@@ -132,6 +140,7 @@ public class ConsoleUI {
         cipherBreaker.processFile(inputFilePath, outputFilePath);
       } catch (Exception e) {
         System.out.println("Error encrypting file: " + e.getMessage());
+        e.printStackTrace();
       }
       return;
     }
@@ -147,6 +156,7 @@ public class ConsoleUI {
       System.out.println("Decrypted text: " + decryptedText);
     } catch (Exception e) {
       System.out.println("Error breaking cipher: " + e.getMessage());
+      e.printStackTrace();
     }
   }
 
@@ -158,6 +168,7 @@ public class ConsoleUI {
       System.out.println("Result: " + evaluator.evaluate(expression));
     } catch (Exception e) {
       System.out.println("Error evaluating expression: " + e.getMessage());
+      e.printStackTrace();
     }
   }
 }

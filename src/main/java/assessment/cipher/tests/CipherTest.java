@@ -8,22 +8,30 @@ public class CipherTest {
 
   public static void main(String[] args) {
 
-    testEncryption("Hello World", 3, "Khoor Zruog");
-    testEncryption("Привет Мир", 5, "Фхнжйч Снх");
-    testEncryption("Hello World 123!", 3, "Khoor Zruog 123!");
-    testEncryption("aBcDeFg", 1, "bCdEfGh");
-    testEncryption("bCdEfGh", -1, "aBcDeFg");
-    testEncryption("Test", 0, "Test");
-    testEncryption("Test", 26, "Test");
-    testEncryption("Тест", 33, "Тест");
-    testEncryption("Hello World привет мир 123!", 3, "Khoor Zruog тулезх плу 123!");
+    /*
+     * testEncryption("Hello World", 3, "Khoor Zruog");
+     * testEncryption("Привет Мир", 5, "Фхнжйч Снх");
+     * testEncryption("Hello World 123!", 3, "Khoor Zruog 123!");
+     * testEncryption("aBcDeFg", 1, "bCdEfGh");
+     * testEncryption("bCdEfGh", -1, "aBcDeFg");
+     * testEncryption("Test", 0, "Test");
+     * testEncryption("Test", 26, "Test");
+     * testEncryption("Тест", 33, "Тест");
+     * testEncryption("Hello World привет мир 123!", 3,
+     * "Khoor Zruog тулезх плу 123!");
+     *
+     * testDecryption("Khoor Zruog", 3, "Hello World");
+     * testDecryption("Khoor Zruog 123!", 3, "Hello World 123!");
+     * testDecryption("bCdEfGh", 1, "aBcDeFg");
+     * testDecryption("Test", 0, "Test");
+     * testDecryption("Test", 26, "Test");
+     * testDecryption("Тест", 33, "Тест");
+     */
 
-    testDecryption("Khoor Zruog", 3, "Hello World");
-    testDecryption("Khoor Zruog 123!", 3, "Hello World 123!");
-    testDecryption("bCdEfGh", 1, "aBcDeFg");
-    testDecryption("Test", 0, "Test");
-    testDecryption("Test", 26, "Test");
-    testDecryption("Тест", 33, "Тест");
+    testEncryptionFromFile("src/main/java/assessment/cipher/tests/encrypt_inp.txt",
+        "src/main/java/assessment/cipher/tests/encrypt_out.txt", 3);
+    testDecryptionFromFile("src/main/java/assessment/cipher/tests/decrypt_inp.txt",
+        "src/main/java/assessment/cipher/tests/decrypt_out.txt", 5);
   }
 
   public static void testEncryption(String input, int shift, String expectedOutput) {
@@ -46,5 +54,13 @@ public class CipherTest {
       System.out.printf("Decryption Test Failed: Input \"%s\", Shift %d, Expected \"%s\", Got \"%s\"%n",
           input, shift, expectedOutput, decryptedText);
     }
+  }
+
+  public static void testEncryptionFromFile(String inputFilePath, String outputFilePath, int shift) {
+    cipher.processFile(inputFilePath, outputFilePath, "encrypt", shift);
+  }
+
+  public static void testDecryptionFromFile(String inputFilePath, String outputFilePath, int shift) {
+    cipher.processFile(inputFilePath, outputFilePath, "decrypt", shift);
   }
 }

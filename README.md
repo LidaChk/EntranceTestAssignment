@@ -62,7 +62,7 @@ The `CipherBreaker` class extends `Cipher` and adds functionality to automatical
   - Input and output file paths must be valid and accessible  from the current working directory.
     Encoding : The code assumes that input files are encoded in the  UTF-8 encoding. There is no explicit encoding specification during file operations.
   - Line endings : Line breaks are preserved during file-based encryption/decryption.
-  - Large files : While FileLineStreamIO is suitable for large files, there's no progress indicator or cancellation mechanism.
+  - Large files : While `FileLineStreamIO` is suitable for large files, there's no progress indicator or cancellation mechanism. `FileIO` is useful for small files
   - Overwriting files : Writing to an existing file will overwrite its contents without warning.
   - Empty files : Attempting to encrypt or decrypt an empty file results in an empty output file.
   - Binary files : This implementation is intended for text files only . Processing binary files will not work as expected.
@@ -165,5 +165,6 @@ src/
 │           │   └── ConsoleUI.java     # Menu-driven interface
 │           └── utils/
 │               ├── ScannerUtils.java  # Input validation
+│               ├── FileIO.java        # File handling utilities
 │               └── FileLineStreamIO.java # File handling utilities
 ```

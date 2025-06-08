@@ -72,7 +72,10 @@ public class ConsoleUI {
 
   private String getOutputFile(String inputFilePath) {
     String defaultOutputFilePath = inputFilePath.substring(0, inputFilePath.length() - 4) + "_out.txt";
-    return ScannerUtils.getStringInput("Enter output file path (default " + defaultOutputFilePath + "): ");
+    String outputFilePath = ScannerUtils
+        .getStringInput("Enter output file path (default " + defaultOutputFilePath + "): ");
+
+    return outputFilePath.isEmpty() ? defaultOutputFilePath : outputFilePath;
   }
 
   private int getShift() {
